@@ -27,7 +27,15 @@ while True:
     month, day = map(int, line.split()[0].split('.'))
     names = line.split()[1].split(',')
 
+    priorities = []
+
     for name in names:
+        priorities.append([mem.members[name][0], name])
+    priorities.sort(reverse=True)
+
+
+    for name in priorities:
+        name = name[1]
         mem.addPossibleDateInMember(name, date)
 
         if month == dates.months[0]:
@@ -79,10 +87,14 @@ pair_buddies.setCntTable(cnt_table)
 
 pair_buddies.pairUpBuddies(cnt_table.firstMonth, dates.names_in_first_month, 0)
 pair_buddies.pairUpBuddies(cnt_table.secondMonth, dates.names_in_second_month, 1)
+
+for i in dates.names_in_first_month:
+    print(i)
+
 pair_buddies.pairTheRest(cnt_table.firstMonth, dates.names_in_first_month, 0)
 pair_buddies.pairTheRest(cnt_table.secondMonth, dates.names_in_second_month, 1)
 
-
+#
 print("buddies: ")
 print(pair_buddies.getBuddies())
 

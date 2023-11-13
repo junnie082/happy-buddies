@@ -36,7 +36,7 @@ class PairBuddies:
         # group[0] - 신입생 # group[1] - 재학생 # group[2] - 날짜
         for group in monthList:
             date = str(self.months[month]) + "." + str(group[2])
-            if group[0] == 0 and group[1] == 0:
+            if group[0] == 0 or group[1] == 0:
                 continue
             for students in [namesInMonthList[group[2] - 1]]:
                 newStudent = []
@@ -48,14 +48,17 @@ class PairBuddies:
                     else:
                         oldStudent.append(student)
 
-
                 for buddy1 in newStudent:
                     for buddy2 in oldStudent:
 
+                        if (buddy1 not in namesInMonthList[group[2] - 1]) or (buddy2 not in namesInMonthList[group[2] - 1]):
+                            continue
+
                         if (self.cnt_table.membersInCntTable[buddy1] >= 2 or self.cnt_table.membersInCntTable[buddy2] >= 2):
+                            if (self.cnt_table.membersInCntTable[buddy1] >= 2): namesInMonthList.remove(buddy1)
+                            if (self.cnt_table.membersInCntTable[buddy2] >= 2): namesInMonthList.remove(buddy2)
                             continue
-                        if (buddy1 not in self.names_in_first_month[group[2] - 1]) or (buddy2 not in self.names_in_first_month[group[2] - 1]):
-                            continue
+
 
                         if date not in self.buddies:
                             self.buddies[date] = [{buddy1: buddy2}]
@@ -72,14 +75,33 @@ class PairBuddies:
         # 여기서는 모든 group 에 대해 group[0] = 0 이다. 재학생수 group[1] 만 0보다 큰 상태.
         for group in monthList:
             date = str(self.months[month]) + "." + str(group[2])
-            if group[0] == 0 and group[1] == 0:
+            if len(namesInMonthList[group[2]-1]) == 0:
                 continue
 
             while len(namesInMonthList[group[2]-1]) >= 2:
                 buddy1 = namesInMonthList[group[2]-1].pop()
                 buddy2 = namesInMonthList[group[2]-1].pop()
+                print("date: ", end=' ')
+                print(date, end = ' ')
+                print("buddy1: ", end=' ')
+                print(buddy1, end = ' ')
+                print("buddy2: ", end = ' ')
+                print(buddy2)
 
-                if (self.cnt_table.membersInCntTable[buddy1] >= 2 or self.cnt_table.membersInCntTable[buddy2] >= 2):
+                if (self.cnt_table.membersInCntTable[buddy1] >= 2 and self.cnt_table.membersInCntTable[buddy2] < 2):
+                    if date not in self.buddies:
+                        self.buddies[date] = [{buddy2: "null"}]
+                    else:
+                        self.buddies[date].append({buddy2: "null"})
+                    self.cnt_table.membersInCntTable[buddy2] += 1
+                    continue
+
+                if (self.cnt_table.membersInCntTable[buddy2] >= 2 and self.cnt_table.membersInCntTable[buddy1] < 2):
+                    if date not in self.buddies:
+                        self.buddies[date] = [{buddy1: "null"}]
+                    else:
+                        self.buddies[date].append({buddy1: "null"})
+                    self.cnt_table.membersInCntTable[buddy1] += 1
                     continue
 
                 if date not in self.buddies:
