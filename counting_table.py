@@ -3,7 +3,7 @@ from dates import Dates
 date = Dates()
 
 class CountingTable:
-    # [신입생수, 재학생수, 날짜]
+    # firstMonth, secondMonth: [신입생수, 재학생수, 날짜]
     def __init__(self):
         self.membersInCntTable = {
             "류창수": 0, "진성우": 0, "유도현": 0, "한종한": 0,
