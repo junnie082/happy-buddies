@@ -5,7 +5,7 @@ dates = Dates()
 
 class PairBuddies:
     def __init__(self):
-        # {날짜, [{버디1, 버디2}]}
+        # buddies: {날짜, [{버디1, 버디2}]}
         self.buddies = {}
         self.cnt_table = []
         self.names_in_first_month = []

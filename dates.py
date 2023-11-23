@@ -7,9 +7,11 @@ class Dates:
         self.names_in_first_month = []
         self.names_in_second_month = []
 
-    def set_month(self, month):
-        self.months.append(month[0])
-        self.months.append(month[1])
+    def set_month(self, months):
+        self.months = months
+        #self.months.append(month[0])
+        #self.months.append(month[1])
+
     def calculate_days(self, month):
         days = 30 + (month % 2 if month <= 7 else (0 if month % 2 else 1))
         return days

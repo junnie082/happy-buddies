@@ -26,7 +26,8 @@ class CountingTable:
 
     def initMonths(self, months):
         self.firstMonth = [[0, 0, i + 1] for i in range(date.calculate_days(months[0]))]
-        self.secondMonth = [[0, 0, i + 1] for i in range(date.calculate_days(months[1]))]
+        if (len(months) != 1):
+            self.secondMonth = [[0, 0, i + 1] for i in range(date.calculate_days(months[1]))]
 
 
 
