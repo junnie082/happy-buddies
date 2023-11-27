@@ -55,7 +55,6 @@ def done():
     dates.set_month(months)
     print(months)
 
-    
     dates.iniNamesInFirstMonth()
     if len(months) == 2: 
         dates.iniNamesInSecondMonth()
@@ -147,7 +146,7 @@ def done():
     pair_buddies.pairTheRest(cnt_table.secondMonth, dates.names_in_second_month, 1)
 
     printBuddies()
-    printTraingDays()
+    printTrainingDays()
 
 
 
@@ -159,10 +158,10 @@ def printBuddies():
     text_container = Text(
         root,
         width = 60,
-        height = 30
+        height = 20
     )
 
-    items = pair_buddies.getBuddies().items()
+    items = sorted(pair_buddies.getBuddies().items())
 
     for key, values in items:
         text_container.insert('end', key+"\n")
@@ -173,19 +172,39 @@ def printBuddies():
     
     text_container.pack(expand=True)
 
-def printTraingDays(): 
+def printTrainingDays():
     # 각 회원 별 훈련 날짜 수
     print("\n")
-    for i, m in enumerate(months): 
+    text_container = Text(
+        root,
+        width= 60,
+        height=10
+    )
+    text_container.tag_config('red', foreground='red')
+    text_container.tag_config('green', background='yellow', foreground='green')
+    text_container.tag_config('blue', background='blue', foreground='white')
+    for i, m in enumerate(months):
         print('각 회원이 ' + str(months[i]) + '월, ')
-        
+
+    items = sorted(cnt_table.membersInCntTable.items())
     print('에 훈련을 받는 횟수: ')
-    for member, values in cnt_table.membersInCntTable.items():
-        print(member, values, end = " ")
+    for member, value in items:
+        text_container.insert('end', member + " ")
+        if value == 0:
+            text_container.insert('end', str(value) + " ", 'red')
+        elif value == 1:
+            text_container.insert('end', str(value) + " ", 'green')
+        else:
+            text_container.insert('end', str(value) + " ", 'blue')
+
+        print(member, value, end = " ")
+
+    text_container.pack(expand = True)
 
 
 root.mainloop()
 # calendar: https://www.tutorialspoint.com/how-to-handle-a-button-click-event-in-tkinter
 # dynamic button: https://pythonexamples.org/python-tkinter-change-button-text-dynamically/
-# StringVar() 을 담은 변수의 이름은 반드시 str 이어야 하나보다. 
+# StringVar() 을 담은 변수의 이름은 반드시 str 이어야 하나보다. => 아님.
 # 2차원 배열의 포함여부 검사하기: https://velog.io/@woo0_hooo/python-2차원-리스트에서-원소의-포함여부-검사하기
+# textbox 에서 글 색상 바꾸기: https://stackoverflow.com/questions/47591967/changing-the-colour-of-text-automatically-inserted-into-tkinter-widget
