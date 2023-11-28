@@ -30,3 +30,7 @@ class Members:
 
     def addPossibleDateInMember(self, name, date):
         self.members[name][1].append(date)
+
+    def resetMembers(self):
+        for name in self.members:
+            self.members[name][1] = []

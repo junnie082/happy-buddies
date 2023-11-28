@@ -7,9 +7,11 @@ class Dates:
         self.names_in_first_month = []
         self.names_in_second_month = []
 
-    def set_month(self, month):
-        self.months.append(month[0])
-        self.months.append(month[1])
+    def set_month(self, months):
+        self.months = months
+        #self.months.append(month[0])
+        #self.months.append(month[1])
+
     def calculate_days(self, month):
         days = 30 + (month % 2 if month <= 7 else (0 if month % 2 else 1))
         return days
@@ -21,6 +23,15 @@ class Dates:
     def iniNamesInSecondMonth(self):
         self.second_days = self.calculate_days(self.months[1])
         self.names_in_second_month = [[] for _ in range(self.second_days)]
+
+    def resetDate(self):
+        self.months = []
+        self.days = 0
+        self.first_days = 0
+        self.second_days = 0
+        self.names_in_first_month = []
+        self.names_in_second_month = []
+
 
     # def add_member_in_date(self, month, name):
     #     if month == self.months[0]:
