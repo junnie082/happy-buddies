@@ -24,6 +24,15 @@ class Dates:
         self.second_days = self.calculate_days(self.months[1])
         self.names_in_second_month = [[] for _ in range(self.second_days)]
 
+    def resetDate(self):
+        self.months = []
+        self.days = 0
+        self.first_days = 0
+        self.second_days = 0
+        self.names_in_first_month = []
+        self.names_in_second_month = []
+
+
     # def add_member_in_date(self, month, name):
     #     if month == self.months[0]:
     #         self.firstMonth[self.calculate_days(month) - 1].append(name)

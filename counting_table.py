@@ -1,4 +1,5 @@
 from dates import Dates
+import pair_buddies
 
 date = Dates()
 
@@ -29,6 +30,26 @@ class CountingTable:
         if (len(months) != 1):
             self.secondMonth = [[0, 0, i + 1] for i in range(date.calculate_days(months[1]))]
 
+    def resetCntTable(self):
+        self.firstMonth = []
+        self.secondMonth = []
+        for name in self.membersInCntTable:
+            self.membersInCntTable[name] = 0
 
+    def resetCntTable(self):
+        for name, _ in self.membersInCntTable.items():
+            self.membersInCntTable[name] = 0
+    def countTrainingDates(self, pair_buddies):
+        print("pair_buddis.buddies: " + str(pair_buddies.buddies) + "type: " + str(type(pair_buddies.buddies)))
 
+        for dates, pairs in pair_buddies.buddies.items():
+            print("date: " + str(dates) + "pairs: " + str(pairs))
+            for pair in pairs:
+                buddy1 = list(pair.keys())[0]
+                buddy2 = list(pair.values())[0]
+                if buddy1 != None: self.membersInCntTable[buddy1] += 1
+                if buddy2 != None: self.membersInCntTable[buddy2] += 1
 
+            # for buddy1, buddy2 in pairs:
+            #     if buddy1 != None: self.membersInCntTable[buddy1] += 1
+            #     if buddy2 != None: self.membersInCntTable[buddy2] += 1

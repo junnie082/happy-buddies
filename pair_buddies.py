@@ -1,11 +1,10 @@
-from members import Members
 from dates import Dates
 
 dates = Dates()
 
 class PairBuddies:
     def __init__(self):
-        # buddies: {날짜, [{버디1, 버디2}]}
+        # {날짜, [{버디1, 버디2}]}
         self.buddies = {}
         self.cnt_table = []
         self.names_in_first_month = []
@@ -13,6 +12,16 @@ class PairBuddies:
         self.months = []
         self.mem = {}
 
+    def resetBuddies(self):
+        self.buddies = {}
+
+
+    def resetAllOfBuddies(self):
+        self.cnt_table = []
+        self.names_in_first_month = []
+        self.names_in_second_month = []
+        self.months = []
+        self.mem = {}
     def setMembers(self, members):
         self.mem = members
 
@@ -64,8 +73,6 @@ class PairBuddies:
                         else:
                             self.buddies[date].append({buddy1: buddy2})
 
-                        self.cnt_table.membersInCntTable[buddy1] += 1
-                        self.cnt_table.membersInCntTable[buddy2] += 1
                         namesInMonthList[group[2]-1].remove(buddy1)
                         namesInMonthList[group[2]-1].remove(buddy2)
 
@@ -94,8 +101,6 @@ class PairBuddies:
                     else:
                         self.buddies[date].append({buddy2: buddy1})
 
-                    self.cnt_table.membersInCntTable[buddy2] += 1
-                    if buddy1 != None: self.cnt_table.membersInCntTable[buddy1] += 1
                     continue
 
                 if (self.cnt_table.membersInCntTable[buddy2] >= 2 and self.cnt_table.membersInCntTable[buddy1] < 2):
@@ -107,9 +112,6 @@ class PairBuddies:
                         self.buddies[date] = [{buddy1: buddy2}]
                     else:
                         self.buddies[date].append({buddy1: buddy2})
-
-                    self.cnt_table.membersInCntTable[buddy1] += 1
-                    if buddy2 != None: self.cnt_table.membersInCntTable[buddy2] += 1
                     continue
 
 
@@ -117,8 +119,6 @@ class PairBuddies:
                     self.buddies[date] = [{buddy1: buddy2}]
                 else:
                     self.buddies[date].append({buddy1: buddy2})
-                self.cnt_table.membersInCntTable[buddy1] += 1
-                self.cnt_table.membersInCntTable[buddy2] += 1
 
             if len(namesInMonthList[group[2]-1]) == 1:
                 buddy = namesInMonthList[group[2]-1].pop()
@@ -128,6 +128,15 @@ class PairBuddies:
                     self.buddies[date] = [{buddy: None}]
                 else:
                     self.buddies[date].append({buddy: None})
-                self.cnt_table.membersInCntTable[buddy] += 1
 
 
+    def removeDuplicate(self):
+        print("buddies: " + str(self.buddies))
+
+        dup = []
+        for date, pairs in self.buddies.items():
+            for pair in pairs:
+                if pair not in dup:
+                    dup.append(pair)
+                    print("dup: " + str(dup))
+            self.buddies[date] = dup
