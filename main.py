@@ -48,6 +48,20 @@ def get_date():
         nameList = list(members.split(','))
 
         flag = True
+
+        # self.buddies에 이미 해당 동아리원이 있는지 확인.
+        for date, pairs in pair_buddies.buddies.items():
+            for pair in pairs:
+                buddy1 = list(pair.keys())[0]
+                buddy2 = list(pair.values())[0]
+                for name in nameList:
+                    if name == buddy1 or name == buddy2:
+                        flag = False
+                        putMemBtn['text'] = "self.buddies에 추가되어 있음."
+                        print("주의! 입력된 회원이 중복으로 추가 되었으므로, 이번에 입력된 동아리원들은 추가되지 않습니다. 다시 입력하세요.")
+                        break
+
+        # datesAndMemebersList에 중복 입력이 있는지 확인.
         for datesAndMembers in datesAndMembersList:
             if datesAndMembers[0] == str(selected_date):
                 cmpList = datesAndMembers[1].split(',')
