@@ -15,7 +15,6 @@ class PairBuddies:
     def resetBuddies(self):
         self.buddies = {}
 
-
     def resetAllOfBuddies(self):
         self.cnt_table = []
         self.names_in_first_month = []
@@ -41,10 +40,10 @@ class PairBuddies:
     def getBuddies(self):
         return self.buddies
 
-    def pairUpBuddies(self, monthList, namesInMonthList, month):
+    def pairUpBuddies(self, cal, monthList, namesInMonthList, month):
         # group[0] - 신입생 # group[1] - 재학생 # group[2] - 날짜
         for group in monthList:
-            date = str(self.months[month]) + "." + str(group[2])
+            date = cal
             if group[0] == 0 or group[1] == 0:
                 continue
             for students in [namesInMonthList[group[2] - 1]]:
@@ -69,18 +68,24 @@ class PairBuddies:
                             continue
 
                         if date not in self.buddies:
+                            print("Date not in pair: " + date)
                             self.buddies[date] = [{buddy1: buddy2}]
                         else:
+                            print("Date in pair: " + date)
                             self.buddies[date].append({buddy1: buddy2})
+
+                        self.cnt_table.membersInCntTable[buddy1] += 1
+                        self.cnt_table.membersInCntTable[buddy2] += 1
 
                         namesInMonthList[group[2]-1].remove(buddy1)
                         namesInMonthList[group[2]-1].remove(buddy2)
 
+        print("pair self.buddis: " + str(self.buddies))
 
-    def pairTheRest(self, monthList, namesInMonthList, month):
+    def pairTheRest(self, cal,  monthList, namesInMonthList, month):
         # 여기서는 모든 group에 대해 group[0] = 0 이다. 재학생수 group[1] 만 0보다 큰 상태.
         for group in monthList:
-            date = str(self.months[month]) + "." + str(group[2])
+            date = cal
             if len(namesInMonthList[group[2]-1]) == 0:
                 continue
 
@@ -109,8 +114,10 @@ class PairBuddies:
                     if self.cnt_table.membersInCntTable[buddy2] >= 2: buddy2 = None
 
                     if date not in self.buddies:
+                        print("Date not in pair: " + date)
                         self.buddies[date] = [{buddy1: buddy2}]
                     else:
+                        print("Date in pair: " + date)
                         self.buddies[date].append({buddy1: buddy2})
                     continue
 
@@ -119,6 +126,9 @@ class PairBuddies:
                     self.buddies[date] = [{buddy1: buddy2}]
                 else:
                     self.buddies[date].append({buddy1: buddy2})
+
+                self.cnt_table.membersInCntTable[buddy1] += 1
+                self.cnt_table.membersInCntTable[buddy2] += 1
 
             if len(namesInMonthList[group[2]-1]) == 1:
                 buddy = namesInMonthList[group[2]-1].pop()
@@ -129,6 +139,8 @@ class PairBuddies:
                 else:
                     self.buddies[date].append({buddy: None})
 
+                self.cnt_table.membersInCntTable[buddy] += 1
+        print("pair self.buddis: " + str(self.buddies))
 
     def removeDuplicate(self):
         print("buddies: " + str(self.buddies))
