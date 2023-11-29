@@ -1,22 +1,17 @@
 from members import Members
-from dates import Dates
 from counting_table import CountingTable
 from pair_buddies import PairBuddies
 from tkinter import *
 from tkinter import Tk, Button, ttk
 from tkcalendar import DateEntry
 
-
 mem = Members()
-dates = Dates()
-
 pair_buddies = PairBuddies()
 cnt_table = CountingTable()
 
 # # # # # UI # # # # # #
 
 datesAndMembersList = []
-months = []
 
 root = Tk()
 root.title("Happy Buddies")
@@ -40,53 +35,36 @@ def delete():
 def get_date():
     try:
         selected_date = cal.get()
-        month = selected_date.split('-')[1]
-        # 훈련 당월 (최대 두 개) 계산하기
-        if all(month not in str(mon) for mon in months):
-            months.append(month)
-        members = names.get()
+        members = getNames.get()
         nameList = list(members.split(','))
 
-        flag = True
+        if all(selected_date not in dates for dates in datesAndMembersList):
+            # 해당 날짜가 없다면.
+            datesAndMembersList.append([selected_date, nameList])
+        else:
+            # 해당 날짜에 인물이 있는지 확인.
+            for name in nameList:
+                for index, datesNames in enumerate(datesAndMembersList):
+                    # datesNames[0] 은 date, datesNames[1] 은 이
+                    if datesNames[0] == selected_date:
+                        print("datesNames[1]: " + str(datesNames[1]))
+                        if name not in datesNames[1]:
+                            if len(datesAndMembersList[index][1]) != 0: datesAndMembersList[index][1].append(name)
+                            else:
+                                datesAndMembersList[index][1] = [name]
 
-        # self.buddies에 이미 해당 동아리원이 있는지 확인.
-        for date, pairs in pair_buddies.buddies.items():
-            for pair in pairs:
-                buddy1 = list(pair.keys())[0]
-                buddy2 = list(pair.values())[0]
-                for name in nameList:
-                    if name == buddy1 or name == buddy2:
-                        flag = False
-                        putMemBtn['text'] = "self.buddies에 추가되어 있음."
-                        print("주의! 입력된 회원이 중복으로 추가 되었으므로, 이번에 입력된 동아리원들은 추가되지 않습니다. 다시 입력하세요.")
-                        break
-
-        # datesAndMemebersList에 중복 입력이 있는지 확인.
-        for datesAndMembers in datesAndMembersList:
-            if datesAndMembers[0] == str(selected_date):
-                cmpList = datesAndMembers[1].split(',')
-                if any(name in cmpList for name in nameList):
-                    flag = False
-                if flag == False:
-                    putMemBtn['text'] = "주의! 입력된 회원이 중복으로 추가 되었으므로, 이번에 입력된 동아리원들은 추가되지 않습니다. 다시 입력하세요."
-                    print("주의! 입력된 회원이 중복으로 추가 되었으므로, 이번에 입력된 동아리원들은 추가되지 않습니다. 다시 입력하세요.")
-                    break
-
-        if flag == True:
-            datesAndMembersList.append([selected_date, members])
-            putMemBtn['text'] = "Add"
-            inputBox.insert('end', selected_date + " " + members + "\n")
-
+        inputBox.insert('end', selected_date + " " + members + "\n")
     except EXCEPTION as e:
         print(e)
 
+
 inputBox.pack()
+
 
 def reset():
     datesAndMembersList.clear()
     mem.resetMembers()
     cnt_table.resetCntTable()
-    dates.resetDate()
     pair_buddies.resetBuddies()
     text_container_buddies.delete("1.0", "end")
     text_container.delete("1.0", "end")
@@ -96,15 +74,12 @@ def reset():
 resetBtn = Button(root, text="RESET", command=reset)
 resetBtn.pack()
 
-
-
 cal = DateEntry(root, date_pattern="yyyy-mm-dd")
 cal.pack()
 
-names = StringVar()
+getNames = StringVar()
 
-
-textbox = ttk.Entry(root, width=30, textvariable=names)
+textbox = ttk.Entry(root, width=30, textvariable=getNames)
 textbox.pack()
 
 # 해당 날짜에 멤버 이름 기입.
@@ -116,122 +91,23 @@ deleteBtn.pack()
 # '마침' 버튼, 멤버들을 모두 기입한 후.
 # # # # # # # # # LOGIC # # # # # # # # # # # #
 
-
-
 def done():
     text_container_buddies.delete("1.0", "end")
     text_container.delete("1.0", "end")
     inputBox.delete(0, END)
-    for i, m in enumerate(months):
-        months[i] = int(m)
 
-    print("months: ", months)
-    dates.set_month(months)
-    print(months)
-
-    dates.iniNamesInFirstMonth()
-    if len(months) == 2:
-        dates.iniNamesInSecondMonth()
-
-    useDatesAndMemberList = datesAndMembersList.copy()
-
-    cnt_table.initMonths(months)
-    print("datesAndMemberList: " + str(datesAndMembersList))
-
-    while len(useDatesAndMemberList) != 0:
-        datesAndMemebers = useDatesAndMemberList.pop()
-        date = datesAndMemebers[0]
-        _, month, day = map(int, date.split('-'))
-        members = datesAndMemebers[1]
-        names = members.split(',')
-
-        priorities = []
-        flag = True
-        for name in names:
-            if name == '': continue
-            for _, buddies in pair_buddies.getBuddies().items():
-                for buddy in buddies:
-                    if buddy == name:
-                        flag = False
-                        break
-            priorities.append([mem.members[name][0], name])
-
-        if len(priorities) == 0: continue
-
-        priorities.sort(reverse=True)
-
-        for name in priorities:
-            name = name[1]
-            mem.addPossibleDateInMember(name, date)
-
-            if month == dates.months[0]:
-                dates.names_in_first_month[day - 1].append(name)
-                if mem.members[name][0] <= 2:
-                    cnt_table.firstMonth[day - 1][0] += 1
-                else:
-                    cnt_table.firstMonth[day - 1][1] += 1
-            else:
-                dates.names_in_second_month[day - 1].append(name)
-                if mem.members[name][0] <= 2:
-                    cnt_table.secondMonth[day - 1][0] += 1
-                else:
-                    cnt_table.secondMonth[day - 1][1] += 1
-
-    # 파일로 열기.
-    # print("훈련 당월을 입력하세요: (1부터 12까지 최대 2개의 정수를 띄어 작성하세요. 예시: 11 12) ")
-    # months = list(map(int, input().split()))
-    # if months[0] > months[1]:
-    #     months[0], months[1] = months[1], months[0]
-
-    # f = open("memberList.txt", "r")
-    # while True:
-    #     line = f.readline()
-    #     if not line: break
-    #     date = line.split()[0]
-    #     month, day = map(int, line.split()[0].split('.'))
-    #     names = line.split()[1].split(',')
-
-    #     priorities = []
-
-    #     for name in names:
-    #         priorities.append([mem.members[name][0], name])
-    #     priorities.sort(reverse=True)
-
-    #     for name in priorities:
-    #         name = name[1]
-    #         mem.addPossibleDateInMember(name, date)
-
-    #         if month == dates.months[0]:
-    #             dates.names_in_first_month[day - 1].append(name)
-    #             if mem.members[name][0] <= 2:
-    #                 cnt_table.firstMonth[day - 1][0] += 1
-    #             else:
-    #                 cnt_table.firstMonth[day - 1][1] += 1
-    #         else:
-    #             dates.names_in_second_month[day - 1].append(name)
-    #             if mem.members[name][0] <= 2:
-    #                 cnt_table.secondMonth[day - 1][0] += 1
-    #             else:
-    #                 cnt_table.secondMonth[day - 1][1] += 1
     pair_buddies.setMembers(mem)
-    pair_buddies.setMonths(months)
-    pair_buddies.setNamesInFirstMonth(dates.names_in_first_month)
-    pair_buddies.setNamesInSecondMonth(dates.names_in_second_month)
     pair_buddies.setCntTable(cnt_table)
-
-    pair_buddies.pairUpBuddies(cnt_table.firstMonth, dates.names_in_first_month, 0)
-    pair_buddies.pairUpBuddies(cnt_table.secondMonth, dates.names_in_second_month, 1)
-
-    pair_buddies.pairTheRest(cnt_table.firstMonth, dates.names_in_first_month, 0)
-    pair_buddies.pairTheRest(cnt_table.secondMonth, dates.names_in_second_month, 1)
-
-    # pair_buddies.removeDuplicate()
+    datesAndMembersList.sort(key = lambda x: len(x[1]))
+    pair_buddies.pairUpBuddies(datesAndMembersList)
 
     printBuddies()
     printTrainingDays()
 
+    pair_buddies.resetBuddies()
     pair_buddies.resetAllOfBuddies()
-    datesAndMembersList.clear()
+
+    cnt_table.resetCntTable()
 
 doneBtn = Button(root, text="Done", command=done)
 doneBtn.pack()
@@ -275,12 +151,10 @@ text_container = Text(
 def printTrainingDays():
     # 각 회원 별 훈련 날짜 수
     print("\n")
-
+    #cnt_table.countTrainDays(pair_buddies.buddies)
     text_container.tag_config('red', foreground='red')
     text_container.tag_config('green', background='yellow', foreground='green')
     text_container.tag_config('blue', background='blue', foreground='white')
-    for i, m in enumerate(months):
-        print('각 회원이 ' + str(months[i]) + '월, ')
 
     items = sorted(cnt_table.membersInCntTable.items())
     print('에 훈련을 받는 횟수: ')
