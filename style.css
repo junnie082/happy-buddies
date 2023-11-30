@@ -1,0 +1,19 @@
+/* Apply basic styling */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Style buttons */
+button {
+    padding: 8px 16px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
+}
