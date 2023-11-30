@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Buddies</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <!-- Your UI components go here -->
+        <input type="date" id="selectedDate" placeholder="Select Date">
+        <input type="text" id="memberNames" placeholder="Enter Member Names">
+        <button onclick="addMember()">Add</button>
+        <ul id="inputList"></ul>
+        <button onclick="done()">Done</button>
+        <button onclick="reset()">Reset</button>
+        <!-- Other UI elements can be added similarly -->
+        <div id="pairedBuddies"></div>
+    </div>
+
+
+    <script src="script.js"></script>
+    <!-- Include the JavaScript code -->
+    <script>
+        let inputList = document.getElementById("inputList");
+        let dateMemberMap = new Map(); // Map to store date-member pairs
+        var datesAndMembersList = [];
+
+        // Function to add a member to the list
+        function addMember() {
+            let selectedDate = document.getElementById("selectedDate").value;
+            let addMemberNames = document.getElementById("memberNames").value;
+
+            if (selectedDate.trim() === "" || addMemberNames.trim() === "") {
+                alert("Please select a date and enter member names.");
+                return;
+            }
+
+            let membersToAdd = addMemberNames.split(',').map(name => name.trim());
+
+            // Check if all entered member names exist in the membersSemesters object
+            if (!checkIfMembersExist(addMemberNames)) {
+                alert("Please enter valid member names.");
+                return;
+            }
+
+            // Check if the member already exists for the selected date
+            const existingMember = datesAndMembersList.find(([date]) => date === selectedDate);
+
+            if (existingMember) {
+                const [, existingMembers] = existingMember;
+
+                for (let name of membersToAdd) {
+                    if (!existingMembers.includes(name)) {
+                        existingMembers.push(name);
+                    }
+                }
+            } else {
+                datesAndMembersList.push([selectedDate, membersToAdd]);
+            }
+
+            // Update the displayed list
+            updateDisplayList();
+        }
+
+
+        function checkIfMembersExist(addMemberNames) {
+            let membersList = addMemberNames.split(",").map(name => name.trim());
+
+            // Get the valid member names from membersSemesters object
+            const validMembers = Object.keys(membersSemesters);
+
+            // Check if all entered member names exist in the valid members list
+            return membersList.every(name => validMembers.includes(name));
+        }
+
+
+
+
+
+
+        function mergeBuddiesToList() {
+            for (const date in buddies) {
+                if (Object.prototype.hasOwnProperty.call(buddies, date)) {
+                    const buddyPairs = buddies[date];
+
+                    // Check if the date already exists in datesAndMembersList
+                    const existingDate = datesAndMembersList.find(([existingDate]) => existingDate === date);
+
+                    if (existingDate) {
+                        const existingMembers = existingDate[1];
+                        buddyPairs.forEach(pair => {
+                            const keys = Object.keys(pair);
+                            const buddy1 = keys[0];
+                            const buddy2 = pair[keys[0]];
+
+                            if (!existingMembers.includes(buddy1)) {
+                                existingMembers.push(buddy1);
+                            }
+                            if (buddy2 && !existingMembers.includes(buddy2)) {
+                                existingMembers.push(buddy2);
+                            }
+                        });
+                    } else {
+                        const members = [];
+                        buddyPairs.forEach(pair => {
+                            const keys = Object.keys(pair);
+                            const buddy1 = keys[0];
+                            const buddy2 = pair[keys[0]];
+
+                            if (!members.includes(buddy1)) {
+                                members.push(buddy1);
+                            }
+                            if (buddy2 && !members.includes(buddy2)) {
+                                members.push(buddy2);
+                            }
+                        });
+                        datesAndMembersList.push([date, members]);
+                    }
+                }
+            }
+        }
+
+
+        function updateDisplayList() {
+            // Clear the displayed list
+            document.getElementById("inputList").innerHTML = "";
+
+            // Remove dates with no members
+            datesAndMembersList = datesAndMembersList.filter(([date, members]) => members.length > 0);
+
+            // Populate the displayed list based on datesAndMembersList
+            datesAndMembersList.forEach(([date, members]) => {
+                let listItem = document.createElement("li");
+
+                // Create the date element
+                let dateText = document.createElement("span");
+                dateText.textContent = date + " ";
+                listItem.appendChild(dateText);
+
+                // Create delete button for each member
+                members.forEach(member => {
+                    let memberText = document.createElement("span");
+                    memberText.textContent = member;
+
+                    let deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.onclick = function () {
+                        removeMemberFromDate(member, date);
+                        updateDisplayList(); // Update the displayed list after deletion
+                    };
+
+                    listItem.appendChild(memberText);
+                    listItem.appendChild(deleteButton);
+                    listItem.appendChild(document.createTextNode(' '));
+                });
+
+                document.getElementById("inputList").appendChild(listItem);
+            });
+        }
+
+
+
+        function removeMemberFromDate(member, date) {
+            datesAndMembersList = datesAndMembersList.map(([listDate, listMembers]) => {
+                if (listDate === date) {
+                    return [listDate, listMembers.filter(m => m !== member)];
+                }
+                return [listDate, listMembers];
+            });
+        }
+
+
+
+
+
+
+
+        function reset() {
+            datesAndMembersList = [];
+            buddies = {};
+            inputList.innerHTML = '';
+            pairedBuddies.innerHTML = ''; // Clears the paired results
+        }
+
+
+        function done() {
+            const resultDiv = document.getElementById('pairedBuddies');
+
+            // Clear the previous results
+            resultDiv.innerHTML = '';
+
+            // Merge buddies to datesAndMembersList
+            mergeBuddiesToList();
+
+            // Pair buddies based on the updated datesAndMembersList
+            pairUpBuddies(datesAndMembersList);
+            printDatesAndMembersList();
+            // Loop through the datesAndMembersList and display the paired results
+            datesAndMembersList.forEach(([date, members]) => {
+
+                    const dateHeading = document.createElement('h3');
+                    dateHeading.textContent = `Date: ${date}`;
+                    resultDiv.appendChild(dateHeading);
+                    const buddiesList = document.createElement('ul');
+
+                    // Get buddies for the current date
+                    const buddiesForDate = buddies[date] || [];
+
+                    // Iterate over each member for the current date
+                    members.forEach(member => {
+                        // Find the corresponding buddy for the member
+                        const buddyPair = buddiesForDate.find(pair => Object.keys(pair)[0] === member);
+                        if (buddyPair) {
+                            const buddyName = Object.keys(buddyPair)[0];
+                            const buddyValue = buddyPair[buddyName] || 'null';
+
+                            const buddyItem = document.createElement('li');
+                            buddyItem.textContent = `${buddyName}: ${buddyValue}`;
+                            buddiesList.appendChild(buddyItem);
+                        }
+                    });
+
+                    resultDiv.appendChild(buddiesList);
+
+                });
+
+
+            resetCntTable();
+
+            // Append the resultDiv to the document body
+            document.body.appendChild(resultDiv);
+        }
+
+
+
+
+
+
+
+
+        function printDatesAndMembersList() {
+                console.log('Dates and Members:');
+                datesAndMembersList.forEach(([date, members]) => {
+                console.log(`Date: ${date}`);
+                console.log(`Members: ${members.join(', ')}`);
+            });
+        }
+
+
+
+        // Function to print out the buddies
+        function printBuddies() {
+            for (const date in buddies) {
+                if (Object.prototype.hasOwnProperty.call(buddies, date)) {
+                    const buddyPairs = buddies[date];
+                    console.log(`Date: ${date}`);
+                    buddyPairs.forEach((pair) => {
+                        const keys = Object.keys(pair);
+                        const buddy1 = keys[0];
+                        const buddy2 = pair[keys[0]] || 'null';
+                        console.log(`${buddy1}: ${buddy2}`);
+                    });
+                }
+            }
+        }
+
+
+        // Implement other functions for UI interactions and logic
+    </script>
+</body>
+</html>
+

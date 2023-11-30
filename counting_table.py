@@ -1,8 +1,3 @@
-from dates import Dates
-import pair_buddies
-
-date = Dates()
-
 class CountingTable:
     def __init__(self):
         self.membersInCntTable = {
