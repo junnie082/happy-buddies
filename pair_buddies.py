@@ -49,7 +49,7 @@ class PairBuddies:
                     else:
                         oldStudent.append(name)
 
-            print("newStudetn: " + str(newStudent) + "oldStudent: " + str(oldStudent))
+            print("newStudent: " + str(newStudent) + "oldStudent: " + str(oldStudent))
             # 신입생들을 먼저 재학생과 pairing 함.
             for buddy1 in newStudent:
                 buddy2 = None
@@ -82,24 +82,55 @@ class PairBuddies:
                 buddy1 = members.pop()
                 buddy2 = members.pop()
 
-                if date not in self.buddies:
-                    self.buddies[date] = [{buddy1: buddy2}]
+                if self.cnt_table.membersInCntTable[buddy1] > 2 and self.cnt_table.membersInCntTable[buddy2] > 2:
+                    continue
 
-                else:
-                    self.buddies[date].append({buddy1: buddy2})
+                if self.cnt_table.membersInCntTable[buddy1] <= 2 and self.cnt_table.membersInCntTable[buddy2] > 2:
+                    buddy2 = None
+                    if date not in self.buddies:
+                        self.buddies[date] = [{buddy1: buddy2}]
+                    else:
+                        self.buddies[date].append({buddy1: buddy2})
 
-                self.cnt_table.addHisDays(buddy1)
-                self.cnt_table.addHisDays(buddy2)
+                    self.cnt_table.addHisDays(buddy1)
+
+                elif self.cnt_table.membersInCntTable[buddy2] <= 2 and self.cnt_table.membersInCntTable[buddy1] > 2:
+                    buddy1 = None
+                    if date not in self.buddies:
+                        self.buddies[date] = [{buddy2: buddy1}]
+                    else:
+                        self.buddies[date].append({buddy2: buddy1})
+
+                    self.cnt_table.addHisDays(buddy2)
+
+                elif self.cnt_table.membersInCntTable[buddy1] <= 2 and self.cnt_table.membersInCntTable[buddy2] <= 2:
+                    if date not in self.buddies:
+                        self.buddies[date] = [{buddy1: buddy2}]
+                    else:
+                        self.buddies[date].append({buddy1: buddy2})
+
+                    self.cnt_table.addHisDays(buddy1)
+                    self.cnt_table.addHisDays(buddy2)
+
+
+                # if self.cnt_table.membersInCntTable[buddy1] <= 2 and self.cnt_table.membersInCntTable[buddy2] <= 2:
+                #     if date not in self.buddies:
+                #         self.buddies[date] = [{buddy1: buddy2}]
+                #     else:
+                #         self.buddies[date].append({buddy1: buddy2})
+
+
 
             if len(members) == 1:
                 buddy = members.pop()
 
-                if date not in self.buddies:
-                    self.buddies[date] = [{buddy: None}]
-                else:
-                    self.buddies[date].append({buddy: None})
+                if self.cnt_table.membersInCntTable[buddy] <= 2:
+                    if date not in self.buddies:
+                        self.buddies[date] = [{buddy: None}]
+                    else:
+                        self.buddies[date].append({buddy: None})
 
-                self.cnt_table.addHisDays(buddy)
+                    self.cnt_table.addHisDays(buddy)
 
 
 

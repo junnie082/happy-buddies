@@ -162,7 +162,7 @@ def printTrainingDays():
         text_container.insert('end', member + " ")
         if value == 0:
             text_container.insert('end', str(value) + " ", 'red')
-        elif value == 1:
+        elif value == 1 or value == 2:
             text_container.insert('end', str(value) + " ", 'green')
         else:
             text_container.insert('end', str(value) + " ", 'blue')
