@@ -25,104 +25,16 @@
             </div>
             <ul id="inputList" class="input-list"></ul>
         </div>
+        <div id="membersTable" class="members-table"></div>
         <h2>Result</h2>
-        <div id="pairedBuddies" class="paired-buddies"></div>
+        <div id="pairedBuddies" class="paired-buddies">
+
+        </div>
     </div>
-
-
 
     <script src="script.js"></script>
     <!-- Include the JavaScript code -->
-    <script>
-        let inputList = document.getElementById("inputList");
-        let dateMemberMap = new Map(); // Map to store date-member pairs
-        var datesAndMembersList = [];
 
-        // Function to add a member to the list
-
-
-        function done() {
-            const container = document.querySelector('.container');
-            const resultDiv = document.getElementById('pairedBuddies');
-
-            // Clear the previous results
-            resultDiv.innerHTML = '';
-
-            // Merge buddies to datesAndMembersList
-            mergeBuddiesToList();
-
-            // Pair buddies based on the updated datesAndMembersList
-            pairUpBuddies(datesAndMembersList);
-            printDatesAndMembersList();
-
-            // Loop through the datesAndMembersList and display the paired results
-            datesAndMembersList.forEach(([date, members]) => {
-                const buddiesForDate = buddies[date] || [];
-
-                // Check if there are any buddy pairs for this date
-                if (buddiesForDate.length > 0) {
-                    const dateHeading = document.createElement('h3');
-                    dateHeading.id = "dateHeading";
-                    dateHeading.textContent = `${date}`;
-                    resultDiv.appendChild(dateHeading);
-                    const buddiesList = document.createElement('ul');
-
-                    members.forEach(member => {
-                        const buddyPair = buddiesForDate.find(pair => Object.keys(pair)[0] === member);
-                        if (buddyPair) {
-                            const buddyName = Object.keys(buddyPair)[0];
-                            const buddyValue = buddyPair[buddyName] || 'None';
-                            const buddyItem = document.createElement('li');
-                            buddyItem.id = "buddyItem";
-
-                            let buddyValueSemester = 'X';
-                            if (buddyValue !== 'None') {
-                                buddyValueSemester = membersSemesters[buddyValue];
-                            }
-                            buddyItem.textContent = `${buddyName}(${membersSemesters[buddyName]}) - ${buddyValue}(${buddyValueSemester})`;
-                            buddiesList.appendChild(buddyItem);
-                        }
-                    });
-
-                    resultDiv.appendChild(buddiesList);
-                }
-            });
-
-            buddies = {};
-            resetCntTable();
-
-            // Append the resultDiv to the container
-            container.appendChild(resultDiv);
-        }
-
-
-
-
-        function removeMemberFromDate(member, date) {
-            datesAndMembersList = datesAndMembersList.map(([listDate, listMembers]) => {
-                if (listDate === date) {
-                    return [listDate, listMembers.filter(m => m !== member)];
-                }
-                return [listDate, listMembers];
-            });
-        }
-
-        function reset() {
-            datesAndMembersList = [];
-            buddies = {};
-            inputList.innerHTML = '';
-            pairedBuddies.innerHTML = ''; // Clears the paired results
-        }
-
-        function printDatesAndMembersList() {
-                console.log('Dates and Members:');
-                datesAndMembersList.forEach(([date, members]) => {
-                console.log(`Date: ${date}`);
-                console.log(`Members: ${members.join(', ')}`);
-            });
-        }
-
-    </script>
 </body>
 </html>
 

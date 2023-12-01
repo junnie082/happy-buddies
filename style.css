@@ -2,13 +2,22 @@
 
 /* Add styles to position the form and buttons */
 h2 {
-    color: skyblue;
+    margin-top: 20px; /* Adjust the margin as needed */
     font-size: 30px;
+    color: skyblue;
+    text-align: center;
 }
 
 input {
     margin: 5px;
     font-size: 20px;
+}
+
+
+#tableHeading {
+    color: black;
+    font-size: 25px;
+    text-align: center;
 }
 
 #dateHeading {
@@ -46,7 +55,7 @@ input {
     margin: 2px;
     font-size: 13px;
     color: white;
-    background-color: lightcoral;
+    background-color: #cccccc;
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
@@ -75,10 +84,6 @@ input {
 #memberNames {
     width: 30vw;
     height: 4vh;
-}
-
-#deleteBtn {
-    font-size: 15px;
 }
 
 .input-with-button {
@@ -221,3 +226,40 @@ input {
     font-size: 20px; /* Adjust the font size as needed */
     padding: 5px 10px;
 }
+
+/* Style for the members table */
+.members-table {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for individual member items */
+
+/* ... (Previous CSS styles remain unchanged) */
+
+/* Increased font size and width for better readability */
+.members-list {
+    display: grid;
+    grid-template-columns: repeat(8, auto); /* Adjust column count as needed */
+    gap: 10px;
+    list-style: none;
+    padding: 10px; /* Adjust padding */
+    font-size: 15px; /* Reduce font size for individual names */
+}
+
+.members-list li {
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    color: #fff;
+    width: auto;
+}
+
+/* Colors based on participation counts */
+.blue { background-color: #3498db; }
+.yellow { background-color: #f39c12; }
+.red { background-color: #e74c3c; }
+

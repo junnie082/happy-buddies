@@ -29,6 +29,154 @@ buddies = {
 
 };
 
+let inputList = document.getElementById("inputList");
+let dateMemberMap = new Map(); // Map to store date-member pairs
+var datesAndMembersList = [];
+
+// Function to add a member to the list
+
+
+function done() {
+    const container = document.querySelector('.container');
+    const resultDiv = document.getElementById('pairedBuddies');
+    const doneButton = document.getElementById('doneBtn');
+
+    // Change the appearance of the Done button
+    doneButton.disabled = true;
+    doneButton.style.backgroundColor = 'darkgray'; // Change color to dark gray
+
+
+
+    // Clear the previous results
+    resultDiv.innerHTML = '';
+
+    // Merge buddies to datesAndMembersList
+    mergeBuddiesToList();
+
+    // Pair buddies based on the updated datesAndMembersList
+    pairUpBuddies(datesAndMembersList);
+    printDatesAndMembersList();
+
+    // Loop through the datesAndMembersList and display the paired results
+    datesAndMembersList.forEach(([date, members]) => {
+        const buddiesForDate = buddies[date] || [];
+        // Check if there are any buddy pairs for this date
+        if (buddiesForDate.length > 0) {
+            const dateHeading = document.createElement('h3');
+            dateHeading.id = "dateHeading";
+            dateHeading.textContent = `▶  ${date}`;
+            resultDiv.appendChild(dateHeading);
+            const buddiesList = document.createElement('ul');
+
+            members.forEach(member => {
+                const buddyPair = buddiesForDate.find(pair => Object.keys(pair)[0] === member);
+                if (buddyPair) {
+                    const buddyName = Object.keys(buddyPair)[0];
+                    const buddyValue = buddyPair[buddyName] || 'None';
+                    const buddyItem = document.createElement('li');
+                    buddyItem.id = "buddyItem";
+
+                    let buddyValueSemester = 'X';
+                    if (buddyValue !== 'None') {
+                        buddyValueSemester = membersSemesters[buddyValue];
+                    }
+                    buddyItem.textContent = `${buddyName}(${membersSemesters[buddyName]}) - ${buddyValue}(${buddyValueSemester})`;
+                    buddiesList.appendChild(buddyItem);
+                }
+            });
+
+            resultDiv.appendChild(buddiesList);
+        }
+    });
+
+
+    // Append the resultDiv to the container
+    container.appendChild(resultDiv);
+
+    buddies = {};
+}
+
+
+// Assume existing code for membersInCntTable
+
+// Function to create members table with colored backgrounds
+// Function to create members table with colored backgrounds
+// Function to create members table with colored backgrounds
+// Function to create members table with colored backgrounds
+function createMembersTable() {
+    const membersTableDiv = document.getElementById('membersTable');
+    membersTableDiv.innerHTML = ''; // Clear previous content
+
+    const tableHeading = document.createElement('h2');
+    tableHeading.textContent = '<Counted Training Days>';
+    membersTableDiv.appendChild(tableHeading);
+
+    const membersList = document.createElement('ul');
+    membersList.classList.add('members-list');
+
+    let memberCount = 0; // Track member count in each row
+
+    for (const member in membersInCntTable) {
+        const participationCount = membersInCntTable[member];
+
+        const memberItem = document.createElement('li');
+        memberItem.textContent = `${member}: ${participationCount}`;
+
+        // Apply appropriate class based on participation count
+        if (participationCount === 3) {
+            memberItem.classList.add('blue');
+        } else if (participationCount === 1 || participationCount === 2) {
+            memberItem.classList.add('yellow');
+        } else {
+            memberItem.classList.add('red');
+        }
+
+        membersList.appendChild(memberItem);
+        memberCount++;
+
+
+    }
+
+    membersTableDiv.appendChild(membersList);
+}
+
+
+// Function to update member count table continuously
+setInterval(createMembersTable, 500); // Update every 0.5 seconds
+
+// Call the createMembersTable function initially to populate the table
+createMembersTable();
+
+
+
+function removeMemberFromDate(member, date) {
+    datesAndMembersList = datesAndMembersList.map(([listDate, listMembers]) => {
+        if (listDate === date) {
+            return [listDate, listMembers.filter(m => m !== member)];
+        }
+        return [listDate, listMembers];
+    });
+}
+
+function reset() {
+    const doneButton = document.getElementById('doneBtn');
+    doneButton.disabled = false;
+    doneButton.style.backgroundColor = '';
+    resetCntTable();
+    datesAndMembersList = [];
+    buddies = {};
+    inputList.innerHTML = '';
+    pairedBuddies.innerHTML = ''; // Clears the paired results
+}
+
+function printDatesAndMembersList() {
+        console.log('Dates and Members:');
+        datesAndMembersList.forEach(([date, members]) => {
+        console.log(`Date: ${date}`);
+        console.log(`Members: ${members.join(', ')}`);
+    });
+}
+
 function getMemberNames() {
     return Object.keys(members);
 }
@@ -44,8 +192,15 @@ function resetCntTable() {
 }
 
 function addMember() {
+
+    const doneButton = document.getElementById('doneBtn');
+    doneButton.disabled = false;
+    doneButton.style.backgroundColor = '';
+
     let selectedDate = document.getElementById("selectedDate").value;
     let addMemberNames = document.getElementById("memberNames").value;
+
+    resetCntTable();
 
     if (selectedDate.trim() === "" || addMemberNames.trim() === "") {
         alert("Please select a date and enter member names.");
@@ -80,40 +235,41 @@ function addMember() {
 }
 
 function checkIfMembersExist(addMemberNames) {
-            let membersList = addMemberNames.split(",").map(name => name.trim());
+    let membersList = addMemberNames.split(",").map(name => name.trim());
 
-            // Get the valid member names from membersSemesters object
-            const validMembers = Object.keys(membersSemesters);
+    // Get the valid member names from membersSemesters object
+    const validMembers = Object.keys(membersSemesters);
 
-            // Check if all entered member names exist in the valid members list
-            return membersList.every(name => validMembers.includes(name));
-        }
-
-        function mergeBuddiesToList() {
-            const existingMembers = datesAndMembersList.flatMap(([_, members]) => members);
-
-            for (const date in buddies) {
-                if (Object.prototype.hasOwnProperty.call(buddies, date)) {
-                    const buddyPairs = buddies[date];
-
-                    const members = [];
-                    buddyPairs.forEach(pair => {
-                        const keys = Object.keys(pair);
-                        const buddy1 = keys[0];
-                        const buddy2 = pair[keys[0]];
-
-                        if (existingMembers.includes(buddy1)) {
-                            members.push(buddy1);
-                        }
-                        if (buddy2 && existingMembers.includes(buddy2)) {
-                            members.push(buddy2);
-                        }
-                    });
-
-                    datesAndMembersList.push([date, members]);
-                }
-            }
+    // Check if all entered member names exist in the valid members list
+    return membersList.every(name => validMembers.includes(name));
 }
+
+function mergeBuddiesToList() {
+    const existingMembers = datesAndMembersList.flatMap(([_, members]) => members);
+
+    for (const date in buddies) {
+        if (Object.prototype.hasOwnProperty.call(buddies, date)) {
+            const buddyPairs = buddies[date];
+
+            const members = [];
+            buddyPairs.forEach(pair => {
+                const keys = Object.keys(pair);
+                const buddy1 = keys[0];
+                const buddy2 = pair[keys[0]];
+
+                if (existingMembers.includes(buddy1)) {
+                    members.push(buddy1);
+                }
+                if (buddy2 && existingMembers.includes(buddy2)) {
+                    members.push(buddy2);
+                }
+            });
+
+            datesAndMembersList.push([date, members]);
+        }
+    }
+}
+
 
 function updateDisplayList() {
     // Clear the displayed list
@@ -128,6 +284,7 @@ function updateDisplayList() {
     // Populate the displayed list based on sorted datesAndMembersList
     datesAndMembersList.forEach(([date, members]) => {
         let listItem = document.createElement("li");
+        listItem.classList.add('list-item'); // Add the class to the list item
 
         // Create the date element
         let dateText = document.createElement("span");
@@ -143,10 +300,10 @@ function updateDisplayList() {
             memberText.classList.add('list-member');
 
             let deleteButton = document.createElement("button");
-            deleteButton.id = "deleteBtn"
-
+            deleteButton.id = "deleteBtn";
             deleteButton.textContent = "Delete";
             deleteButton.onclick = function () {
+
                 removeMemberFromDate(member, date);
                 updateDisplayList(); // Update the displayed list after deletion
             };
@@ -258,17 +415,8 @@ function pairTheRest(oldStudents) {
         }
     }
 
-    // Call this function to print membersInCntTable
-    // printMembersInCntTable();
-
 }
 
-function printMembersInCntTable() {
-    console.log('Members in Count Table:');
-    for (const member in membersInCntTable) {
-        console.log(`${member}: ${membersInCntTable[member]}`);
-    }
-}
 
 
 
