@@ -43,16 +43,121 @@ function resetCntTable() {
     }
 }
 
-function countTrainDays(buddies) {
-    for (let date in buddies) {
-        for (let pair of buddies[date]) {
-            let buddy1 = Object.keys(pair)[0];
-            let buddy2 = Object.values(pair)[0];
+function addMember() {
+    let selectedDate = document.getElementById("selectedDate").value;
+    let addMemberNames = document.getElementById("memberNames").value;
 
-            if (buddy1 !== null) this.membersInCntTable[buddy1] += 1;
-            if (buddy2 !== null) this.membersInCntTable[buddy2] += 1;
-        }
+    if (selectedDate.trim() === "" || addMemberNames.trim() === "") {
+        alert("Please select a date and enter member names.");
+        return;
     }
+
+    let membersToAdd = addMemberNames.split(',').map(name => name.trim());
+
+    // Check if all entered member names exist in the membersSemesters object
+    if (!checkIfMembersExist(addMemberNames)) {
+        alert("Please enter valid member names.");
+        return;
+    }
+
+    // Check if the member already exists for the selected date
+    const existingMember = datesAndMembersList.find(([date]) => date === selectedDate);
+
+    if (existingMember) {
+        const [, existingMembers] = existingMember;
+
+        for (let name of membersToAdd) {
+            if (!existingMembers.includes(name)) {
+                existingMembers.push(name);
+            }
+        }
+    } else {
+        datesAndMembersList.push([selectedDate, membersToAdd]);
+    }
+
+    // Update the displayed list
+    updateDisplayList();
+}
+
+function checkIfMembersExist(addMemberNames) {
+            let membersList = addMemberNames.split(",").map(name => name.trim());
+
+            // Get the valid member names from membersSemesters object
+            const validMembers = Object.keys(membersSemesters);
+
+            // Check if all entered member names exist in the valid members list
+            return membersList.every(name => validMembers.includes(name));
+        }
+
+        function mergeBuddiesToList() {
+            const existingMembers = datesAndMembersList.flatMap(([_, members]) => members);
+
+            for (const date in buddies) {
+                if (Object.prototype.hasOwnProperty.call(buddies, date)) {
+                    const buddyPairs = buddies[date];
+
+                    const members = [];
+                    buddyPairs.forEach(pair => {
+                        const keys = Object.keys(pair);
+                        const buddy1 = keys[0];
+                        const buddy2 = pair[keys[0]];
+
+                        if (existingMembers.includes(buddy1)) {
+                            members.push(buddy1);
+                        }
+                        if (buddy2 && existingMembers.includes(buddy2)) {
+                            members.push(buddy2);
+                        }
+                    });
+
+                    datesAndMembersList.push([date, members]);
+                }
+            }
+}
+
+function updateDisplayList() {
+    // Clear the displayed list
+    document.getElementById("inputList").innerHTML = "";
+
+    // Sort dates with no members
+    datesAndMembersList = datesAndMembersList.filter(([date, members]) => members.length > 0);
+
+    // Sort dates before displaying
+    datesAndMembersList.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+
+    // Populate the displayed list based on sorted datesAndMembersList
+    datesAndMembersList.forEach(([date, members]) => {
+        let listItem = document.createElement("li");
+
+        // Create the date element
+        let dateText = document.createElement("span");
+        dateText.textContent = date + " ";
+        dateText.classList.add('date-text'); // Add this line to apply the class to the date element
+
+        dateText.textContent = date + " ";
+        listItem.appendChild(dateText);
+
+        members.forEach(member => {
+            let memberText = document.createElement("span");
+            memberText.textContent = member;
+            memberText.classList.add('list-member');
+
+            let deleteButton = document.createElement("button");
+            deleteButton.id = "deleteBtn"
+
+            deleteButton.textContent = "Delete";
+            deleteButton.onclick = function () {
+                removeMemberFromDate(member, date);
+                updateDisplayList(); // Update the displayed list after deletion
+            };
+
+            listItem.appendChild(memberText);
+            listItem.appendChild(deleteButton);
+            listItem.appendChild(document.createTextNode(' '));
+        });
+
+        document.getElementById("inputList").appendChild(listItem);
+    });
 }
 
 function pairUpBuddies(datesAndMembersList)  {
@@ -78,11 +183,14 @@ function pairUpBuddies(datesAndMembersList)  {
         for (let name of members) {
             if (name === '') continue;
 
-            if (membersSemesters[name] <= 2) {
-                newStudent.push(name);
-            } else {
-                oldStudent.push(name);
+            if (membersInCntTable[name] <= 2) {
+                if (membersSemesters[name] <= 2) {
+                    newStudent.push(name);
+                } else {
+                    oldStudent.push(name);
+                }
             }
+
         }
 
         for (let buddy1 of newStudent) {

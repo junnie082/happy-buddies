@@ -1,19 +1,218 @@
-/* Apply basic styling */
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-}
+/* Existing CSS styles */
 
-/* Style buttons */
-button {
-    padding: 8px 16px;
+/* Add styles to position the form and buttons */
+input {
     margin: 5px;
-    cursor: pointer;
+    font-size: 20px;
 }
 
-textarea {
+#dateHeading {
+    font-size: 25px;
+}
+
+#buddyItem {
+    font-size: 20px;
+}
+
+#addBtn {
+    margin: 5px;
+    font-size: 20px;
+    background-color: skyblue;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#doneBtn, #resetBtn {
+    margin: 5px;
+    font-size: 20px;
+    border-color: black;;
+    background-color: white;
+    border: 2px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#deleteBtn {
+    margin: 2px;
+    font-size: 13px;
+    color: white;
+    background-color: lightcoral;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#addBtn:hover,
+#doneBtn:hover,
+#resetBtn:hover {
+    background-color: lightblue;
+    color: white;
+}
+
+#deleteBtn:hover {
+    background-color: lightpink;
+    /* Any other style adjustments you may want */
+}
+
+
+#selectedDate {
+    width: 20vw;
+    height: 4vh;
+}
+
+#memberNames {
+    width: 30vw;
+    height: 4vh;
+}
+
+#deleteBtn {
+    font-size: 15px;
+}
+
+.input-with-button {
+    display: flex;
+    align-items: center;
+}
+
+.input-with-button input {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.input-with-button button {
+    flex-shrink: 0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.done-reset-buttons button {
+    margin-right: 10px;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* Adjust spacing as needed */
+}
+
+.paired-buddies {
+    max-width: 600px;
     width: 100%;
-    resize: vertical;
+    margin-top: 20px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+.form {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+.result-container {
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Add styles for the dates */
+.date-text {
+    font-size: 20px;
+    font-weight: bold;
+    border: 3px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px;
+    display: inline-block;
+}
+
+.input-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Style for the date */
+
+/* Center the names */
+.member-names {
+    display: flex;
+    justify-content: center;
+}
+
+/* Style for the buddies list */
+.buddies-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+/* Style for individual buddy pairs */
+.buddy-pair {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.form-section {
+    max-width: 600px;
+    width: 100%;
+    background-color: #f5f5f5;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Adjust styles for input and buttons */
+
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+/* CSS styles */
+.list-member {
+    font-size: 20px; /* Adjust the font size as needed */
+    padding: 5px 10px;
 }
