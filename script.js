@@ -59,6 +59,13 @@ function pairUpBuddies(datesAndMembersList)  {
     let copyList = [...datesAndMembersList];
     let theRestOldStudents = [];
 
+    // Filter out dates with no members
+    copyList = copyList.filter(([date, members]) => members.length > 0);
+
+    // Sort datesAndMembersList by the number of members in descending order
+    copyList.sort((a, b) => b[1].length - a[1].length);
+
+
     while (copyList.length !== 0) {
         let datesAndMembers = copyList.pop();
         let date = datesAndMembers[0];

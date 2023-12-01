@@ -74,49 +74,28 @@
             return membersList.every(name => validMembers.includes(name));
         }
 
-
-
-
-
-
         function mergeBuddiesToList() {
+            const existingMembers = datesAndMembersList.flatMap(([_, members]) => members);
+
             for (const date in buddies) {
                 if (Object.prototype.hasOwnProperty.call(buddies, date)) {
                     const buddyPairs = buddies[date];
 
-                    // Check if the date already exists in datesAndMembersList
-                    const existingDate = datesAndMembersList.find(([existingDate]) => existingDate === date);
+                    const members = [];
+                    buddyPairs.forEach(pair => {
+                        const keys = Object.keys(pair);
+                        const buddy1 = keys[0];
+                        const buddy2 = pair[keys[0]];
 
-                    if (existingDate) {
-                        const existingMembers = existingDate[1];
-                        buddyPairs.forEach(pair => {
-                            const keys = Object.keys(pair);
-                            const buddy1 = keys[0];
-                            const buddy2 = pair[keys[0]];
+                        if (existingMembers.includes(buddy1)) {
+                            members.push(buddy1);
+                        }
+                        if (buddy2 && existingMembers.includes(buddy2)) {
+                            members.push(buddy2);
+                        }
+                    });
 
-                            if (!existingMembers.includes(buddy1)) {
-                                existingMembers.push(buddy1);
-                            }
-                            if (buddy2 && !existingMembers.includes(buddy2)) {
-                                existingMembers.push(buddy2);
-                            }
-                        });
-                    } else {
-                        const members = [];
-                        buddyPairs.forEach(pair => {
-                            const keys = Object.keys(pair);
-                            const buddy1 = keys[0];
-                            const buddy2 = pair[keys[0]];
-
-                            if (!members.includes(buddy1)) {
-                                members.push(buddy1);
-                            }
-                            if (buddy2 && !members.includes(buddy2)) {
-                                members.push(buddy2);
-                            }
-                        });
-                        datesAndMembersList.push([date, members]);
-                    }
+                    datesAndMembersList.push([date, members]);
                 }
             }
         }
@@ -138,7 +117,6 @@
                 dateText.textContent = date + " ";
                 listItem.appendChild(dateText);
 
-                // Create delete button for each member
                 members.forEach(member => {
                     let memberText = document.createElement("span");
                     memberText.textContent = member;
@@ -158,6 +136,7 @@
                 document.getElementById("inputList").appendChild(listItem);
             });
         }
+
 
 
 
@@ -196,20 +175,19 @@
             // Pair buddies based on the updated datesAndMembersList
             pairUpBuddies(datesAndMembersList);
             printDatesAndMembersList();
+
             // Loop through the datesAndMembersList and display the paired results
             datesAndMembersList.forEach(([date, members]) => {
+                const buddiesForDate = buddies[date] || [];
 
+                // Check if there are any buddy pairs for this date
+                if (buddiesForDate.length > 0) {
                     const dateHeading = document.createElement('h3');
                     dateHeading.textContent = `Date: ${date}`;
                     resultDiv.appendChild(dateHeading);
                     const buddiesList = document.createElement('ul');
 
-                    // Get buddies for the current date
-                    const buddiesForDate = buddies[date] || [];
-
-                    // Iterate over each member for the current date
                     members.forEach(member => {
-                        // Find the corresponding buddy for the member
                         const buddyPair = buddiesForDate.find(pair => Object.keys(pair)[0] === member);
                         if (buddyPair) {
                             const buddyName = Object.keys(buddyPair)[0];
@@ -222,15 +200,16 @@
                     });
 
                     resultDiv.appendChild(buddiesList);
+                }
+            });
 
-                });
-
-
+            buddies = {};
             resetCntTable();
 
             // Append the resultDiv to the document body
             document.body.appendChild(resultDiv);
         }
+
 
 
 
