@@ -1,6 +1,11 @@
 /* Existing CSS styles */
 
 /* Add styles to position the form and buttons */
+h2 {
+    color: skyblue;
+    font-size: 30px;
+}
+
 input {
     margin: 5px;
     font-size: 20px;
