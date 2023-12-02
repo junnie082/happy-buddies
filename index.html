@@ -3,38 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Happy Buddies</title>
+    <link rel="stylesheet" href="id.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="memberTable.css">
 </head>
 <body>
     <div class="container">
-        <div class="form-section">
-            <div class="title">
-                <h1>Happy Buddies</h1>
-            </div>
-            <!-- Your UI components go here -->
-            <input type="date" id="selectedDate" placeholder="Select Date">
-            <div class="input-with-button">
-                <input type="text" id="memberNames" placeholder="Enter Member Names">
-                <button id="addBtn" onclick="addMember()">Add</button>
-            </div>
-            <div class="button-container">
-                <div class="done-reset-buttons">
-                    <button id="doneBtn" onclick="done()">Done</button>
-                    <button id="resetBtn" onclick="reset()">Reset</button>
+        <div class="form-and-table">
+            <div class="form-section">
+                <div class="title">
+                    <h1>Happy Buddies</h1>
                 </div>
-            </div>
-            <ul id="inputList" class="input-list"></ul>
-        </div>
-        <div id="membersTable" class="members-table"></div>
-        <h2>Result</h2>
-        <div id="pairedBuddies" class="paired-buddies">
+                <!-- Your UI components go here -->
+                <div class="forms">
+                    <input type="date" id="selectedDate" placeholder="Select Date">
+                </div>
+                <div class="input-with-button">
+                    <div id="semesterButtons" class="semester-buttons"></div>
+                </div>
+                <div class="button-container">
+                    <div class="done-reset-buttons">
+                        <button id="doneBtn" onclick="done()">Done</button>
+                        <button id="resetBtn" onclick="reset()">Reset</button>
+                    </div>
+                </div>
 
+            </div>
+            <div class="results">
+                <div id="membersTable" class="members-table"></div>
+                <h2>Input</h2>
+                <ul id="inputList" class="input-list"></ul>
+            </div>
         </div>
+
+    </div>
+    <div>
+        <h2>Result</h2>
+        <div id="pairedBuddies" class="paired-buddies"></div>
     </div>
 
     <script src="script.js"></script>
+    <script src="clicked.js"></script>
+    <script src="algorithm.js"></script>
     <!-- Include the JavaScript code -->
-
 </body>
 </html>
-
