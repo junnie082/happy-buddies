@@ -3,8 +3,10 @@
 /* Add styles to position the form and buttons */
 h2 {
     margin-top: 20px; /* Adjust the margin as needed */
+    margin-bottom: 10px;
     font-size: 30px;
     color: skyblue;
+    font-weight: bold;
     text-align: center;
 }
 
@@ -13,77 +15,29 @@ input {
     font-size: 20px;
 }
 
-
-#tableHeading {
-    color: black;
-    font-size: 25px;
-    text-align: center;
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
-#dateHeading {
-    font-size: 25px;
+.form-and-table {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
-#buddyItem {
-    font-size: 20px;
+.members-table {
+    width: 800px; /* Set an absolute width in pixels */
+    height: 350px;
 }
 
-#addBtn {
-    margin: 5px;
-    font-size: 20px;
-    background-color: skyblue;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#doneBtn, #resetBtn {
-    margin: 5px;
-    font-size: 20px;
-    border-color: black;;
-    background-color: white;
-    border: 2px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#deleteBtn {
-    margin: 2px;
-    font-size: 13px;
-    color: white;
-    background-color: #cccccc;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#addBtn:hover,
-#doneBtn:hover,
-#resetBtn:hover {
-    background-color: lightblue;
-    color: white;
-}
-
-#deleteBtn:hover {
-    background-color: lightpink;
-    /* Any other style adjustments you may want */
-}
-
-
-#selectedDate {
-    width: 20vw;
-    height: 4vh;
-}
-
-#memberNames {
-    width: 30vw;
-    height: 4vh;
+.results {
+    display: flex;
+    flex-direction: column;
 }
 
 .input-with-button {
@@ -117,8 +71,7 @@ input {
 }
 
 .paired-buddies {
-    max-width: 600px;
-    width: 100%;
+    width: 800px;
     margin-top: 20px;
     background-color: #f5f5f5;
     padding: 20px;
@@ -126,15 +79,6 @@ input {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto; /* Enable vertical scrolling */
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 
@@ -172,11 +116,11 @@ input {
 }
 
 .input-list {
+    margin-left: 50px;
+    max-width: 800px;
     list-style-type: none;
     padding: 0;
 }
-
-/* Style for the date */
 
 /* Center the names */
 .member-names {
@@ -202,9 +146,10 @@ input {
 }
 
 .form-section {
-    max-width: 600px;
-    width: 100%;
+    width: 800px;
+    height: 980px;
     background-color: #f5f5f5;
+    margin-left: 20px;
     padding: 20px;
     box-sizing: border-box;
     border-radius: 8px;
@@ -221,45 +166,24 @@ input {
     margin-bottom: 20px;
 }
 
-/* CSS styles */
-.list-member {
-    font-size: 20px; /* Adjust the font size as needed */
-    padding: 5px 10px;
-}
 
-/* Style for the members table */
-.members-table {
-    margin-top: 20px;
+/* results */
+/* styles.css */
+.date-container {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
     padding: 10px;
-    background-color: #f4f4f4;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-/* Style for individual member items */
-
-/* ... (Previous CSS styles remain unchanged) */
-
-/* Increased font size and width for better readability */
-.members-list {
-    display: grid;
-    grid-template-columns: repeat(8, auto); /* Adjust column count as needed */
-    gap: 10px;
+.date-heading {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.buddies-list {
     list-style: none;
-    padding: 10px; /* Adjust padding */
-    font-size: 15px; /* Reduce font size for individual names */
+    padding: 0;
+}
+.buddy-item {
+    margin-bottom: 5px;
 }
 
-.members-list li {
-    padding: 5px;
-    border-radius: 5px;
-    text-align: center;
-    color: #fff;
-    width: auto;
-}
-
-/* Colors based on participation counts */
-.blue { background-color: #3498db; }
-.yellow { background-color: #f39c12; }
-.red { background-color: #e74c3c; }
 
