@@ -58,6 +58,7 @@ function pairUpBuddies(datesAndMembersList)  {
 }
 
 function pairTheRest(oldStudents) {
+
     while (oldStudents.length !== 0) {
         let datesAndMembers = oldStudents.pop();
         let date = datesAndMembers[0];

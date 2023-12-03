@@ -1,43 +1,13 @@
-/* Existing CSS styles */
-
-/* Add styles to position the form and buttons */
-h2 {
-    margin-top: 20px; /* Adjust the margin as needed */
-    margin-bottom: 10px;
-    font-size: 30px;
-    color: skyblue;
-    font-weight: bold;
-    text-align: center;
-}
-
+/* Updated CSS for adjusted form-and-table and button sizes */
 input {
     margin: 5px;
     font-size: 20px;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    box-sizing: border-box;
-}
 
-.form-and-table {
+.names-list {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.members-table {
-    width: 800px; /* Set an absolute width in pixels */
-    height: 350px;
-}
-
-.results {
-    display: flex;
-    flex-direction: column;
+    /* Add other styles as needed */
 }
 
 .input-with-button {
@@ -54,21 +24,13 @@ input {
     flex-shrink: 0;
 }
 
-.button-container {
+.pair-container {
     display: flex;
-    justify-content: flex-start;
-    margin-top: 10px;
+    justify-content: center; /* Center items horizontally */
+    gap: 20px; /* Add space between pairs */
+    margin-top: 20px; /* Adjust margin as needed */
 }
 
-.done-reset-buttons button {
-    margin-right: 10px;
-}
-
-.title {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px; /* Adjust spacing as needed */
-}
 
 .paired-buddies {
     width: 800px;
@@ -89,13 +51,6 @@ input {
     align-items: center;
 }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 200px;
-    margin-bottom: 20px;
-}
-
 .result-container {
     text-align: center;
     background-color: #f9f9f9;
@@ -103,6 +58,24 @@ input {
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
+
+.buddies-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Center text horizontally */
+h2, .buddy-pairs-text {
+    font-size: 30px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.paired-buddies h3 {
+    text-align: center;
+}
+
+
 
 /* Add styles for the dates */
 .date-text {
@@ -112,8 +85,9 @@ input {
     padding: 5px 10px;
     border-radius: 5px;
     margin: 5px;
-    display: inline-block;
+    display: block;
 }
+
 
 .input-list {
     margin-left: 50px;
@@ -145,45 +119,85 @@ input {
     background-color: #f0f0f0;
 }
 
+
+
+.form-and-table {
+    display: flex;
+    flex-direction: column; /* Adjust layout to column */
+    gap: 20px; /* Gap between sections */
+}
+
+/* Updated CSS for form-section to center objects horizontally */
+
 .form-section {
-    width: 800px;
-    height: 980px;
+    width: auto;
+    height: 30%;
     background-color: #f5f5f5;
-    margin-left: 20px;
+    margin-left: auto;
+    margin-right: auto;
     padding: 20px;
     box-sizing: border-box;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-y: auto;
+    display: flex; /* Add display flex */
+    flex-direction: column; /* Arrange children vertically */
+    justify-content: center; /* Center children horizontally */
 }
 
-/* Adjust styles for input and buttons */
 
+.members-table {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f5f5f5;
+}
 
-.button-container {
+.members-table {
+    height: 30vh;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.results,
+.paired-buddies {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f5f5f5;
+    overflow-y: auto;
+}
+
+/* Adjust the size of buttons */
+.done-reset-buttons button {
+    padding: 8px 15px;
+    font-size: 14px;
+    /* Other button styles */
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+    /* Adjust other styles for responsiveness */
+}
+
+.input-list {
+    width: 300px; /* Set a width if needed */
+    margin: 0 auto; /* Center horizontally */
+    padding: 0; /* Reset padding */
+    list-style-type: none; /* Remove list bullets */
+    /* Additional styles as needed */
+}
+
+/* Example styles for list items */
+.input-list li {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
-
-
-/* results */
-/* styles.css */
-.date-container {
-    border: 1px solid #ccc;
+    justify-content: center;
     margin-bottom: 10px;
-    padding: 10px;
 }
-.date-heading {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-.buddies-list {
-    list-style: none;
-    padding: 0;
-}
-.buddy-item {
-    margin-bottom: 5px;
-}
-
-

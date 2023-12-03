@@ -15,11 +15,12 @@ function done() {
 
     // Pair buddies based on the updated datesAndMembersList
     pairUpBuddies(datesAndMembersList);
-    //printDatesAndMembersList();
 
     // Track printed dates
     const printedDates = new Set();
-
+    const resultHeading = document.createElement('h2');
+    resultHeading.textContent = 'Result';
+    resultDiv.appendChild(resultHeading);
     // Loop through the datesAndMembersList and display the paired results
     datesAndMembersList.forEach(([date, members]) => {
         if (!printedDates.has(date)) {
@@ -27,33 +28,34 @@ function done() {
             // Check if there are any buddy pairs for this date
             if (buddiesForDate.length > 0) {
                 const dateHeading = document.createElement('h3');
-                dateHeading.id = "dateHeading";
-                dateHeading.textContent = `▶  ${date}`;
+                dateHeading.id = 'dateHeading';
+                dateHeading.textContent = `▶ ${date}`;
                 resultDiv.appendChild(dateHeading);
-                const buddiesList = document.createElement('ul');
 
-                if (Array.isArray(members)) { // Check if members is an array
-                    members.forEach(member => {
-                        const buddyPair = buddiesForDate.find(pair => Object.keys(pair)[0] === member);
-                        if (buddyPair) {
-                            const buddyName = Object.keys(buddyPair)[0];
-                            const buddyValue = buddyPair[buddyName] || 'None';
-                            const buddyItem = document.createElement('li');
-                            buddyItem.id = "buddyItem";
+                const pairContainer = document.createElement('div');
+                pairContainer.classList.add('pair-container');
+                pairContainer.style.display = 'flex'; // Set to display items in a row
+                pairContainer.style.gap = '20px'; // Add spacing between items
 
-                            let buddyValueSemester = 'X';
-                            if (buddyValue !== 'None') {
-                                buddyValueSemester = membersSemesters[buddyValue];
-                            }
-                            buddyItem.textContent = `${buddyName}(${membersSemesters[buddyName]}) - ${buddyValue}(${buddyValueSemester})`;
-                            buddiesList.appendChild(buddyItem);
-                        }
-                    });
-                } else {
-                    console.error('Members is not an array:', members);
-                }
+                buddiesForDate.forEach(pair => {
+                    const buddyName = Object.keys(pair)[0];
+                    const buddyValue = pair[buddyName] || 'None';
 
-                resultDiv.appendChild(buddiesList);
+                    let buddyValueSemester = 'X';
+                    if (buddyValue !== 'None') {
+                        buddyValueSemester = membersSemesters[buddyValue];
+                    }
+
+                    const pairText = document.createElement('p');
+                    pairText.textContent = `${buddyName}(${membersSemesters[buddyName]}) - ${buddyValue}(${buddyValueSemester})`;
+                    pairText.style.border = '2px solid #3498db'; // Thicker border
+                    pairText.style.borderRadius = '10px'; // Rounded border
+                    pairText.style.padding = '10px'; // Add padding to create space between text and border
+
+                    pairContainer.appendChild(pairText);
+                });
+
+                resultDiv.appendChild(pairContainer);
                 printedDates.add(date); // Add the printed date to the set
             }
         }
@@ -62,6 +64,7 @@ function done() {
     // Append the resultDiv to the container
     container.appendChild(resultDiv);
     buddies = {};
+
 }
 
 
@@ -75,7 +78,24 @@ function reset() {
     buddies = {};
     inputList.innerHTML = '';
     pairedBuddies.innerHTML = ''; // Clears the paired results
+    resetMemberButtons();
 }
+
+// Function to reset member buttons to white
+// Function to reset all buttons to white
+function resetAllButtons() {
+    const buttons = document.querySelectorAll('.semester-members button');
+    buttons.forEach(button => {
+        button.style.backgroundColor = '';
+        button.style.color = '';
+    });
+}
+
+// Event listener for the resetBtn
+document.getElementById('resetBtn').addEventListener('click', () => {
+    resetAllButtons(); // Call the function to reset all buttons
+});
+
 
 
 function addMember(date, name) {

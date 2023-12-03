@@ -95,6 +95,9 @@ function createSemesterButtons() {
 
         semesterDiv.appendChild(semesterMembersDiv);
         semesterButtonsContainer.appendChild(semesterDiv);
+
+        const enter = document.createElement('br');
+        semesterButtonsContainer.appendChild(enter);
     }
 
     const dateInput = document.getElementById('selectedDate');
@@ -134,41 +137,38 @@ function updateDisplayList() {
     const inputList = document.getElementById('inputList');
     inputList.innerHTML = '';
 
-    // Filter out entries with no members and sort by date
-    datesAndMembersList
-        .filter(([_, members]) => Array.isArray(members) && members.length > 0)
-        .sort((a, b) => new Date(a[0]) - new Date(b[0]))
-        .forEach(([date, members]) => {
+    const printedDates = []; // Track printed dates
+
+    // Iterate through the datesAndMembersList
+    datesAndMembersList.forEach(([date, members]) => {
+        if (!printedDates.includes(date)) {
             const listItem = document.createElement('li');
             listItem.classList.add('list-item');
 
             const dateText = document.createElement('span');
-            dateText.textContent = `${date} `;
+            dateText.textContent = `${date}`;
             dateText.classList.add('date-text');
             listItem.appendChild(dateText);
 
+            inputList.appendChild(listItem);
+            printedDates.push(date); // Add date to printedDates array
+
+            // Add logic to print members for this date
             if (Array.isArray(members)) {
                 members.forEach(member => {
                     const memberText = document.createElement('span');
                     memberText.textContent = member;
                     memberText.classList.add('list-member');
-
-
-                    listItem.appendChild(memberText);
-                    listItem.appendChild(document.createTextNode(' '));
+                    inputList.appendChild(memberText);
                 });
             } else {
                 const memberText = document.createElement('span');
                 memberText.textContent = members;
                 memberText.classList.add('list-member');
-
-
-                listItem.appendChild(memberText);
-                listItem.appendChild(document.createTextNode(' '));
+                inputList.appendChild(memberText);
             }
-
-            inputList.appendChild(listItem);
-        });
+        }
+    });
 }
 
 
