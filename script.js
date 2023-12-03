@@ -55,14 +55,34 @@ function createSemesterButtons() {
             if (membersSemesters[member] === semester) {
                 const memberButton = document.createElement('button');
                 memberButton.textContent = member;
-                memberButton.id = "memberButton"
+                memberButton.id = `memberButton`;
+                memberButton.dataset.memberName = member; // Store member name in dataset
+
                 memberButton.addEventListener('click', () => {
                     const selectedDate = document.getElementById('selectedDate').value;
                     if (selectedDate.trim() !== '') {
-                        addMember(selectedDate, member);
-                        datesAndMembersList.push([selectedDate, member]);
-                        // Call functions to print and update the displayed list here
-                        printDatesAndMembersList();
+                        const isMemberInList = datesAndMembersList.some(
+                            ([date, addedMember]) => date === selectedDate && addedMember === member
+                        );
+
+                        if (isMemberInList) {
+                            const memberIndex = datesAndMembersList.findIndex(
+                                ([date, addedMember]) => date === selectedDate && addedMember === member
+                            );
+
+                            if (memberIndex !== -1) {
+                                datesAndMembersList.splice(memberIndex, 1);
+                            }
+                            removeMemberFromDate(member, selectedDate);
+
+                            memberButton.style.backgroundColor = '';
+                            memberButton.style.color = '';
+                        } else {
+                            addMember(selectedDate, member);
+                            datesAndMembersList.push([selectedDate, member]);
+                            memberButton.style.backgroundColor = '#3498db';
+                            memberButton.style.color = 'white';
+                        }
                         updateDisplayList();
                     } else {
                         alert('Please select a date.');
@@ -76,6 +96,32 @@ function createSemesterButtons() {
         semesterDiv.appendChild(semesterMembersDiv);
         semesterButtonsContainer.appendChild(semesterDiv);
     }
+
+    const dateInput = document.getElementById('selectedDate');
+    dateInput.addEventListener('change', () => {
+        const selectedDate = dateInput.value;
+
+        // Reset all buttons to default state
+        const buttons = document.querySelectorAll('.semester-members button');
+        buttons.forEach(button => {
+            button.style.backgroundColor = '';
+            button.style.color = '';
+        });
+
+        // Find members present in datesAndMembersList for the selected date
+        const membersForSelectedDate = datesAndMembersList
+            .filter(([date, _]) => date === selectedDate)
+            .map(([_, member]) => member);
+
+        // Set buttons to blue for members present in datesAndMembersList on the selected date
+        membersForSelectedDate.forEach(member => {
+            const button = document.querySelector(`[data-member-name="${member}"]`);
+            if (button) {
+                button.style.backgroundColor = '#3498db';
+                button.style.color = 'white';
+            }
+        });
+    });
 }
 
 // Call the function to create semester buttons
@@ -107,16 +153,8 @@ function updateDisplayList() {
                     memberText.textContent = member;
                     memberText.classList.add('list-member');
 
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Delete';
-                    deleteButton.id = 'deleteBtn';
-                    deleteButton.onclick = function () {
-                        removeMemberFromDate(member, date);
-                        updateDisplayList();
-                    };
 
                     listItem.appendChild(memberText);
-                    listItem.appendChild(deleteButton);
                     listItem.appendChild(document.createTextNode(' '));
                 });
             } else {
@@ -124,16 +162,8 @@ function updateDisplayList() {
                 memberText.textContent = members;
                 memberText.classList.add('list-member');
 
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
-                deleteButton.id = 'deleteBtn'; // Assign ID to deleteButton
-                deleteButton.onclick = function () {
-                    removeMemberFromDate(members, date);
-                    updateDisplayList();
-                };
 
                 listItem.appendChild(memberText);
-                listItem.appendChild(deleteButton);
                 listItem.appendChild(document.createTextNode(' '));
             }
 
