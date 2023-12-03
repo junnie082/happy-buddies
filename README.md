@@ -87,6 +87,7 @@ Names and the number of semesters they've been trained.
 - Every member in each date will be paired up and be shown under the "Result" box.
 - The format follows "buddy1(semester) - buddy2(semester)".
 - Every group will be updated as dates increase.
+- If you press "Reset" button, dates, input list and result box will be reset again. All the buttons will go white and all the boxes in counted traing days will go red.
 
 
 
