@@ -15,7 +15,7 @@ function done() {
 
     // Pair buddies based on the updated datesAndMembersList
     pairUpBuddies(datesAndMembersList);
-    printDatesAndMembersList();
+    //printDatesAndMembersList();
 
     // Track printed dates
     const printedDates = new Set();
@@ -109,7 +109,6 @@ function addMember(date, name) {
         if (!existingMembers.includes(addMemberName)) {
             existingMembers.push(addMemberName);
         } else {
-            alert("Member already added for the selected date.");
             return;
         }
     } else {
