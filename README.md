@@ -2,6 +2,10 @@
 
 
 
+https://github.com/junnie082/happy-buddies/assets/88719152/6c632ba1-f597-489c-b51b-2b0c2c6bde6a
+
+
+
 ### Why?
 In 2022, I used to be a training manger in Scuba Diving club in my university. 
 As a training manager, I had to investigate all the possible dates each student could go for training and make groups each date every semester.  
@@ -23,15 +27,18 @@ If there is no other new students left, old students will be paired up following
 Each student should go for training for 3 times each semester. 
 
 
-## Date Structure
+## Data
 
-Informatin of the members (current memebers in Seoul Tech Scuba Team) are saved in the program.
+Information of the members (current memebers in Seoul Tech Scuba Team) are saved in the program.
 Names and the number of semesters they've been trained.
 
 
 
 
 ## Software
+
+
+
 
 ### Link
 
