@@ -33,6 +33,19 @@ buddies = {
 let inputList = document.getElementById("inputList");
 let datesAndMembersList = [];
 
+// function cntMembers() {
+//     for (let date in buddies) {
+//         buddies[date].forEach((name) => {
+//             if (name !== null) {
+//                 // Add a console log here to inspect 'name' and 'membersInCntTable[name]'
+//                 console.log(`Name: ${name}, Count: ${membersInCntTable[name]}`);
+//
+//                 membersInCntTable[name] += 1;
+//             }
+//         });
+//     }
+// }
+
 
 // Function to create buttons for members of each semester
 function createSemesterButtons() {
@@ -131,8 +144,6 @@ function createSemesterButtons() {
 createSemesterButtons();
 
 
-
-
 function updateDisplayList() {
     const inputList = document.getElementById('inputList');
     inputList.innerHTML = '';
@@ -172,7 +183,6 @@ function updateDisplayList() {
 }
 
 
-
 function createMembersTable() {
     const membersTableDiv = document.getElementById('membersTable');
     membersTableDiv.innerHTML = ''; // Clear previous content
@@ -184,25 +194,25 @@ function createMembersTable() {
     const membersList = document.createElement('ul');
     membersList.classList.add('members-list');
 
-    let memberCount = 0; // Track member count in each row
-
+    // Iterate through the direct properties of membersInCntTable
     for (const member in membersInCntTable) {
-        const participationCount = membersInCntTable[member];
+        if (Object.prototype.hasOwnProperty.call(membersInCntTable, member)) {
+            const participationCount = membersInCntTable[member];
 
-        const memberItem = document.createElement('li');
-        memberItem.textContent = `${member}: ${participationCount}`;
+            const memberItem = document.createElement('li');
+            memberItem.textContent = `${member}: ${participationCount}`;
 
-        // Apply appropriate class based on participation count
-        if (participationCount === 3) {
-            memberItem.classList.add('blue');
-        } else if (participationCount === 1 || participationCount === 2) {
-            memberItem.classList.add('yellow');
-        } else {
-            memberItem.classList.add('red');
+            // Apply appropriate class based on participation count
+            if (participationCount === 3) {
+                memberItem.classList.add('blue');
+            } else if (participationCount === 1 || participationCount === 2) {
+                memberItem.classList.add('yellow');
+            } else {
+                memberItem.classList.add('red');
+            }
+
+            membersList.appendChild(memberItem);
         }
-
-        membersList.appendChild(memberItem);
-        memberCount++;
     }
 
     membersTableDiv.appendChild(membersList);
@@ -231,7 +241,6 @@ function removeMemberFromDate(member, date) {
 
     updateDisplayList();
 }
-
 
 
 document.querySelectorAll('.member-button').forEach(button => {
@@ -312,11 +321,3 @@ function mergeBuddiesToList() {
         }
     }
 }
-
-
-
-
-
-
-
-// Perform actions using these classes
