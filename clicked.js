@@ -16,6 +16,9 @@ function done() {
     // Pair buddies based on the updated datesAndMembersList
     pairUpBuddies(datesAndMembersList);
 
+    datesAndMembersList.sort((a, b) => new Date(a[0]) - new Date(b[0]));
+
+
     // Track printed dates
     const printedDates = new Set();
     const resultHeading = document.createElement('h2');
@@ -61,13 +64,12 @@ function done() {
         }
     });
 
+    // cntMembers();
     // Append the resultDiv to the container
     container.appendChild(resultDiv);
     buddies = {};
 
 }
-
-
 
 function reset() {
     const doneButton = document.getElementById('doneBtn');
