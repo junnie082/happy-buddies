@@ -18,7 +18,7 @@ I thought it would be great if some kind of computer program could do this bothe
 When we go for scuba diving, everybody should have at least one buddy for safety. We usually pair 2 people per buddy, and we have some rules for this. 
 
 #### Rule 1. 
-New students (who had been trained in the club for 2 or less semesters) must always be paired up with old students (been trained in the club for more than 2 semesters). If there is no old student left in that day for a new student to be paired, he/she will be paired up with 'none' in the program. 
+New students (who had been trained in the club for 2 or less semesters) must always be paired up with old students (been trained in the club for more than 2 semesters). If there is no old student left in that day for a new student to be paired, the new student will not be added to that day. 
 
 #### Rule 2. 
 If there is no other new students left, old students will be paired up following the rule that the gap between two semesters from two students should be always the greatest. 
@@ -74,7 +74,7 @@ Names and the number of semesters they've been trained.
 
 - You can add the members in the input list by pressing the buttons of names (white to blue).
 - When you press the blue button and make it white, the name of the button is removed from the input list.
-- You can add the date by just selecting another date, and the other date section will be appended in the input list.
+- You can add the date by just selecting another date, and the other date section will be appended to the input list.
 
 
 
@@ -140,6 +140,14 @@ Press `New Issue` button to do so.
 
 ### Developer
 Hyojeong Jun, 37th member of Seoul Tech Scuba Club (Training Manger in 2022)
+
+
+
+https://github.com/junnie082/happy-buddies/assets/88719152/29c1944a-d5de-4c17-afac-eca896a60086
+
+
+
+
 
 ### Tools
 
