@@ -8,7 +8,6 @@ function pairUpBuddies(datesAndMembersList)  {
     // Sort datesAndMembersList by the number of members in descending order
     copyList.sort((a, b) => b[1].length - a[1].length);
 
-
     while (copyList.length !== 0) {
         let datesAndMembers = copyList.pop();
         let date = datesAndMembers[0];
@@ -16,7 +15,6 @@ function pairUpBuddies(datesAndMembersList)  {
 
         let newStudent = [];
         let oldStudent = [];
-
 
         for (let name of members) {
             if (name === '') continue;
@@ -40,26 +38,29 @@ function pairUpBuddies(datesAndMembersList)  {
                 buddies[date] = [];
             }
 
-            // Pushing data into buddies[date]
-            buddies[date].push({ [buddy1]: buddy2 });
+            if (membersInCntTable[buddy1] <= 2 && membersInCntTable[buddy2] <= 2)
+                buddies[date].push({ [buddy1]: buddy2 });
+            else if (membersInCntTable[buddy1] <= 2 && membersInCntTable[buddy2] === null)
+                buddies[date].push({ [buddy1]: null})
 
             addHisDays(buddy1);
             if (buddy2 !== null) addHisDays(buddy2);
         }
 
+
         if (oldStudent.length !== 0) {
             theRestOldStudents.push([date, [...oldStudent]]);
         }
+
+        pairTheRest(theRestOldStudents);
     }
 
-    pairTheRest(theRestOldStudents);
-
-    return buddies;
 }
 
 function pairTheRest(oldStudents) {
 
     while (oldStudents.length !== 0) {
+
         let datesAndMembers = oldStudents.pop();
         let date = datesAndMembers[0];
         let members = datesAndMembers[1];
@@ -72,15 +73,28 @@ function pairTheRest(oldStudents) {
                 continue;
             }
 
-            // Pairing logic for buddies based on the counting table
             if (!(date in buddies)) {
                 buddies[date] = [];
             }
 
-            buddies[date].push({ [buddy1]: buddy2 });
+            if (membersInCntTable[buddy1] > 2) {
+                buddies[date].push({[buddy2]: null});
+                addHisDays(buddy1);
+                continue;
+            }
 
-            addHisDays(buddy1);
-            addHisDays(buddy2);
+            if (membersInCntTable[buddy2] > 2) {
+                buddies[date].push({[buddy1]: null});
+                addHisDays(buddy2);
+                continue;
+            }
+
+            if (membersInCntTable[buddy1] <= 2 && membersInCntTable[buddy2] <= 2) {
+                buddies[date].push({ [buddy1]: buddy2 });
+                addHisDays(buddy1);
+                addHisDays(buddy2);
+            }
+
         }
 
         if (members.length === 1) {
