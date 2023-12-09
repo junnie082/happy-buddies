@@ -8,10 +8,13 @@ function pairUpBuddies(datesAndMembersList)  {
     // Sort datesAndMembersList by the number of members in descending order
     copyList.sort((a, b) => b[1].length - a[1].length);
 
+
     while (copyList.length !== 0) {
         let datesAndMembers = copyList.pop();
         let date = datesAndMembers[0];
         let members = datesAndMembers[1];
+
+        // console.log("members: " + members);
 
         let newStudent = [];
         let oldStudent = [];
@@ -59,6 +62,8 @@ function pairUpBuddies(datesAndMembersList)  {
 
 function pairTheRest(oldStudents) {
 
+    oldStudents.reverse();
+
     while (oldStudents.length !== 0) {
 
         let datesAndMembers = oldStudents.pop();
@@ -66,7 +71,7 @@ function pairTheRest(oldStudents) {
         let members = datesAndMembers[1];
 
         while (members.length >= 2) {
-            let buddy1 = members.pop();
+            let buddy1 = members.shift();
             let buddy2 = members.pop();
 
             if (membersInCntTable[buddy1] > 2 && membersInCntTable[buddy2] > 2) {
