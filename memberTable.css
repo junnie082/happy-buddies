@@ -1,0 +1,48 @@
+/* CSS styles */
+.list-member {
+    font-size: 20px; /* Adjust the font size as needed */
+    padding: 5px 10px;
+}
+
+.members-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* Optional: Add margin as needed */
+    height: 30%;
+}
+
+/* Style for the members table */
+.members-table {
+    margin-top: 20px;
+    margin-left: 50px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 50%;
+    width: 40%;
+}
+
+
+/* Style for individual member items */
+.members-list {
+    display: grid;
+    grid-template-columns: repeat(5, auto); /* Adjust column count as needed */
+    gap: 10px;
+    list-style: none;
+    padding: 10px; /* Adjust padding */
+    font-size: 15px; /* Reduce font size for individual names */
+}
+
+.members-list li {
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    color: #fff;
+    width: auto;
+}
+
+/* Colors based on participation counts */
+.blue { background-color: #3498db; }
+.yellow { background-color: #f39c12; }
+.red { background-color: #e74c3c; }

@@ -1,0 +1,203 @@
+/* Updated CSS for adjusted form-and-table and button sizes */
+input {
+    margin: 5px;
+    font-size: 20px;
+}
+
+
+.names-list {
+    display: flex;
+    /* Add other styles as needed */
+}
+
+.input-with-button {
+    display: flex;
+    align-items: center;
+}
+
+.input-with-button input {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.input-with-button button {
+    flex-shrink: 0;
+}
+
+.pair-container {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    gap: 20px; /* Add space between pairs */
+    margin-top: 20px; /* Adjust margin as needed */
+}
+
+
+.paired-buddies {
+    width: 800px;
+    margin-top: 20px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+
+.form {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-container {
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.buddies-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Center text horizontally */
+h2, .buddy-pairs-text {
+    font-size: 30px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.paired-buddies h3 {
+    text-align: center;
+}
+
+
+
+/* Add styles for the dates */
+.date-text {
+    font-size: 20px;
+    font-weight: bold;
+    border: 3px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px;
+    display: block;
+}
+
+
+.input-list {
+    margin-left: 50px;
+    max-width: 800px;
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Center the names */
+.member-names {
+    display: flex;
+    justify-content: center;
+}
+
+/* Style for the buddies list */
+.buddies-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+/* Style for individual buddy pairs */
+.buddy-pair {
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+
+
+.form-and-table {
+    display: flex;
+    flex-direction: column; /* Adjust layout to column */
+    gap: 20px; /* Gap between sections */
+}
+
+/* Updated CSS for form-section to center objects horizontally */
+
+.form-section {
+    width: auto;
+    height: 30%;
+    background-color: #f5f5f5;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    display: flex; /* Add display flex */
+    flex-direction: column; /* Arrange children vertically */
+    justify-content: center; /* Center children horizontally */
+}
+
+
+.members-table {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f5f5f5;
+}
+
+.members-table {
+    height: 30vh;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.results,
+.paired-buddies {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f5f5f5;
+    overflow-y: auto;
+}
+
+/* Adjust the size of buttons */
+.done-reset-buttons button {
+    padding: 8px 15px;
+    font-size: 14px;
+    /* Other button styles */
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+    /* Adjust other styles for responsiveness */
+}
+
+.input-list {
+    width: 300px; /* Set a width if needed */
+    margin: 0 auto; /* Center horizontally */
+    padding: 0; /* Reset padding */
+    list-style-type: none; /* Remove list bullets */
+    /* Additional styles as needed */
+}
+
+/* Example styles for list items */
+.input-list li {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
